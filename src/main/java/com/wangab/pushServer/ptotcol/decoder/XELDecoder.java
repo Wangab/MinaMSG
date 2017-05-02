@@ -45,7 +45,7 @@ public class XELDecoder extends CumulativeProtocolDecoder {
             }
             String messageID = new String(mid).trim();
             //解析内容
-            byte[] msg = Arrays.copyOfRange(remain, 27, totalLen - 1);
+            byte[] msg = copyOfRange(remain, 27, totalLen - 1);
             IMessageContent msgContent = MessageContentDecoder.decod(msg, msgType);
             //解析包尾
             int etx = remain[remainingLength - 1];
@@ -59,12 +59,18 @@ public class XELDecoder extends CumulativeProtocolDecoder {
             msgobj.setTotalLen(totalLen);
             out.write(msgobj);
             return true;
-        } else
-
-        {
+        } else {
             LOG.warn("Incomplete data continue to make a complete cycle");
             return false;
         }
     }
-
+    public byte[] copyOfRange(byte[] original, int from, int to) {
+        int newLength = to - from;
+        if (newLength < 0)
+            throw new IllegalArgumentException(from + " > " + to);
+        byte[] copy = new byte[newLength];
+        System.arraycopy(original, from, copy, 0,
+                Math.min(original.length - from, newLength));
+        return copy;
+    }
 }

@@ -23,13 +23,23 @@ public class MessageHandler extends IoHandlerAdapter {
     private static final Logger LOG = LogUtil.getLogger();
     private static List<Map<Long, Long>> templist = new ArrayList<Map<Long, Long>>();
 
+    @Override
     public void sessionCreated(IoSession session) {
+//        当一个新客户端连接后触发此方法
         // 显示客户端的ip和端口
         LOG.info("创建连接：" + session.getRemoteAddress().toString() + " SID:" + session.getId());
     }
 
+    @Override
+    public void sessionOpened(IoSession session) throws Exception {
+//        当连接后打开时触发此方法，一般此方法与 sessionCreated 会被同时触发
+        super.sessionOpened(session);
+    }
+
+    @Override
     public void messageReceived(IoSession session, Object message)
             throws Exception {
+//        当接收到客户端的请求信息后触发此方法
         Message msg = (Message) message;
         if ("0000".equals(msg.getMsgType())) {
             //处理登录消息
@@ -97,6 +107,7 @@ public class MessageHandler extends IoHandlerAdapter {
 
     @Override
     public void sessionClosed(IoSession session) throws Exception {
+//        当连接被关闭时触发，例如客户端程序意外退出等等
         LOG.warn("关闭连接：" + session.getRemoteAddress().toString() + " SID:" + session.getId());
         Long userid = null;
         Iterator<Map<Long, Long>> it = templist.iterator();
@@ -126,16 +137,21 @@ public class MessageHandler extends IoHandlerAdapter {
     @Override
     public void sessionIdle(IoSession session, IdleStatus status)
             throws Exception {
+//        当连接空闲时触发此方法
         System.out.println("22222222222222" + status);
     }
 
     @Override
     public void exceptionCaught(IoSession session, Throwable cause)
             throws Exception {
-//			session.close();
-        LOG.error("Connetction is exception :" + cause.getMessage());
+//        当接口中其他方法抛出异常未被捕获时触发此方法
+        LOG.error("exception :" + cause.getMessage());
         cause.printStackTrace();
     }
 
-
+    @Override
+    public void messageSent(IoSession session, Object message) throws Exception {
+//        当信息已经传送给客户端后触发此方法
+        super.messageSent(session, message);
+    }
 }

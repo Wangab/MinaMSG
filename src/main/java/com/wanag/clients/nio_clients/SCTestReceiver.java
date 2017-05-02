@@ -1,4 +1,4 @@
-package com.wanag.clients;
+package com.wanag.clients.nio_clients;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class SCTestReceiver {
     }
 
     private static void Clenit() throws IOException {
-        Socket sc = new Socket("192.168.31.155", 6000);
+        Socket sc = new Socket("192.168.1.101", 6000);
         OutputStream out = sc.getOutputStream();
         byte[] msgByteArray = LoginGenerator();
         out.write(msgByteArray);

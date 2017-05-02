@@ -14,8 +14,7 @@ public class XELEncoder extends ProtocolEncoderAdapter {
     private static final Logger LOG = LogUtil.getLogger();
 
     @Override
-    public void encode(IoSession session, Object message,
-                       ProtocolEncoderOutput out) throws Exception {
+    public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
 
         LOG.info("Publish message encoding .....");
         Message msg = (Message) message;
@@ -71,5 +70,4 @@ public class XELEncoder extends ProtocolEncoderAdapter {
 //		out.flush();
         LOG.info("Publish message encoding end");
     }
-
 }

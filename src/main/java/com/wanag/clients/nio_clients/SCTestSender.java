@@ -1,4 +1,4 @@
-package com.wanag.clients;
+package com.wanag.clients.nio_clients;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,9 +18,9 @@ public class SCTestSender {
 	 */
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		ExecutorService executorService = Executors.newFixedThreadPool(1000);
-		Socket sc = new Socket("192.168.31.155", 6000);
+		Socket sc = new Socket("192.168.1.101", 6000);
 		OutputStream out = sc.getOutputStream();
-		for(int a=0;a<10000000;a++){
+		for(int a=0;a<10000;a++){
 			executorService.submit(new Runnable() {
 				public void run() {
 					try {
